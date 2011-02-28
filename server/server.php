@@ -57,7 +57,7 @@ try {
   // Server global datas 
   //
   $GLOBALS['o_server'] = null; // Server socket 
-  $GLOBALS['o_clients'] = array(); // Normalized Ocelot clients (not clients sockets !)
+  
   
   //
   // Server launching 
