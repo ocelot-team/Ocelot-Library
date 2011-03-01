@@ -90,8 +90,43 @@ try {
     $incoming = socket_read( $clientTmp, 10000 );
     
     //
-    // Main routing switch
+    // Users sorting / managing
     //
+    OClients::handleClients();
+    
+    // If the user is still connected ...
+    
+    //
+    // Finding the action the user want to execute and launching it
+    //
+    $incoming = json_decode($incoming);
+    
+    //
+    // Core actions 
+    //
+    if( isset($incoming->core) && strlen($incoming->core) > 0 ) {
+    
+      switch( $incoming->core ) {
+      
+        // User connexion (to do) 
+        
+        // User logout (to do) 
+        
+        // Ping (to do)
+      
+      }
+    
+    }
+    //
+    // Modules actions
+    //
+    elseif( isset($incoming->ask) && strlen($incoming->ask) > 0 ) {
+    
+      //
+      // TO DO
+      //
+    
+    }
   }
   
 }

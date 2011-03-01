@@ -32,9 +32,42 @@ class OClient {
    * @throw OException
   */
   public static function router( $queryData ) {
+    
     //
-    // TO DO 
+    // Verifying datas
     //
+    if( !isset($queryData->core) ) {
+      throw new OException(
+        'No core action asked !',
+        'NO_CORE_ACTION_ASKED'
+      );
+    }
+    
+    //
+    // Core methods router 
+    //
+    switch( $queryData->core ) {
+    
+      //
+      // Ping process      
+      //
+      case 'ping' :
+  
+        // Do we have the user id ?
+        if( !isset($queryData->from) ) {
+          throw new OException(
+            'No user id found to ping in !',
+            'NO_USER_ID_TO_PING'
+          );
+        }
+        
+        // Ping on !
+        OClients::CLIENTS[$queryData->from]->ping();
+  
+      break;
+    
+    }
+    
   }
   
   
@@ -64,7 +97,7 @@ class OClient {
   ///////////////////////////////////////////////////////////////////////////////
    
   /**
-   * Constructor - creates a client and add's it to the global collection 
+   * Constructor - creates a client and add's it to the global collection (connect)
    *
    * @return OClient
   */
@@ -73,10 +106,10 @@ class OClient {
     //
     // Creating a client id 
     //
-    $idTmp = md5( rand(0,10000).''.time() );
+    $idTmp = uniqid();
     
     while( isset(self::CLIENTS[$idTmp]) ) {
-      $idTmp = md5( rand(0,10000).''.time() );
+      $idTmp = uniqid();
     }
     
     //
@@ -91,6 +124,17 @@ class OClient {
     //
     self::CLIENTS[$idTmp] = $this;
     
+  }
+  
+  
+  /**
+   * User erasing process
+   *
+  */
+  public function disconnect() {
+    //
+    // TO DO
+    //
   }
   
   
@@ -134,7 +178,7 @@ class OClient {
    * Clients handler ( sort connected/timed out users, etc ...)
    *
   */
-  public static function clientsHandler() {
+  public static function handleClients() {
     //
     // TO DO 
     //
