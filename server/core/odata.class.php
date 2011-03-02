@@ -9,7 +9,7 @@
  *
  * 2011 - Fabien Canu - Matteo Cargnelutti
  *
- * /core/odata.class.php - Ocelot data class  
+ * /core/odata.class.php - Ocelot data class, normalized data exchange 
 */
 
 // Script protection 
@@ -33,16 +33,52 @@ class OData {
   /** 
    * Decoding and instanciating incoming data 
    *
+   * @param string $rawInput (json encoded)
   */
-  public function __construct( $rawInput )
+  public function __construct( $rawInput ) {
+  
+    //
+    // Decoding datas
+    //
+    $request = json_decode($rawInput);
+    
+    foreach( $request as $k => $v ) {
+      $this->$k = $v;
+    }
+    
+    //
+    // Update the clients ping ?
+    //
+    
+    // 'From' ping 
+    if( isset($request->from) && strlen($request->from) > 0 ) {
+      //
+      // TO DO
+      //
+    }
+    
+    // 'To' ping 
+    if( isset($request->to) && strlen($request->to) > 0 ) {
+      //
+      // TO DO 
+      //
+    }
+  
   }
 
   
   /**
    * Coding outgoing data 
    *
+   * @param string $rawInput (json) 
+   * @return json encoded
   */
-  public function __toString( $raw ) {
+  public function __toString( $rawInput ) {
+    
+    //
+    // TO DO
+    //
+    
   }
   
   public function encode() {

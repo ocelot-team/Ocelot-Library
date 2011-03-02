@@ -21,58 +21,6 @@ class OClient {
 
   ///////////////////////////////////////////////////////////////////////////////
   //
-  // Routing 
-  //
-  ///////////////////////////////////////////////////////////////////////////////
-  /**
-   * Global router - Redirects to a given action according to the transmited datas
-   *
-   * @param JSON $queryData
-   * @return void 
-   * @throw OException
-  */
-  public static function router( $queryData ) {
-    
-    //
-    // Verifying datas
-    //
-    if( !isset($queryData->core) ) {
-      throw new OException(
-        'No core action asked !',
-        'NO_CORE_ACTION_ASKED'
-      );
-    }
-    
-    //
-    // Core methods router 
-    //
-    switch( $queryData->core ) {
-    
-      //
-      // Ping process      
-      //
-      case 'ping' :
-  
-        // Do we have the user id ?
-        if( !isset($queryData->from) ) {
-          throw new OException(
-            'No user id found to ping in !',
-            'NO_USER_ID_TO_PING'
-          );
-        }
-        
-        // Ping on !
-        OClients::CLIENTS[$queryData->from]->ping();
-  
-      break;
-    
-    }
-    
-  }
-  
-  
-  ///////////////////////////////////////////////////////////////////////////////
-  //
   // Attributes 
   //
   ///////////////////////////////////////////////////////////////////////////////
@@ -124,6 +72,11 @@ class OClient {
     //
     self::CLIENTS[$idTmp] = $this;
     
+    //
+    // Sorting clients 
+    //
+    ksort(self::CLIENTS);
+    
   }
   
   
@@ -145,7 +98,7 @@ class OClient {
   public function ping() {
     //
     // TO DO 
-    //
+    // Update ping, set to 0 if we want to disconnect the user
   }
   
   
@@ -173,6 +126,44 @@ class OClient {
   // Clients collection handling 
   //
   ///////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Clients connect handler 
+   *
+   * @param stdObject $queryData
+   * @return string - json coded 
+   * @throw OException
+  */
+  public static function connect( $queryData ) {
+    
+    //
+    // Verifying datas
+    //
+    if( !isset($queryData->core) ) {
+      throw new OException(
+        'No core action asked !',
+        'NO_CORE_ACTION_ASKED'
+      );
+    }
+    
+    //
+    // Creating the client 
+    //
+    $newClient = new OClient();
+    $newClientId = array_pop(array_keys(OClients::CLIENTS));
+    
+    //
+    // Preparing the infos to send to the client 
+    //
+    $connectAnswer = new stdClass();
+    $connectAnswer->core = 'connect-answer';
+    $connectAnswer->success = is_object($newClient) ? true : false;
+    $connectAnswer->id = is_object($newClient) ? $newClientId : '';
+    $connectAnswer->message = is_object($newClient) ? 'Accepted' : 'Rejected';
+        
+    return json_encode($connectAnswer);
+        
+  }
   
   /**
    * Clients handler ( sort connected/timed out users, etc ...)

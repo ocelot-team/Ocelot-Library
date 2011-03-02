@@ -74,6 +74,7 @@ try {
   
   }
   
+  
   //
   // Clients waiting and routing
   //
@@ -83,50 +84,67 @@ try {
     // Incoming connexion signal 
     //
     echo date('d/m/Y H:i',time())." - Incoming connexion.\n";
-    
+  
+  
     //
     // Datas catching 
     //
-    $incoming = socket_read( $clientTmp, 10000 );
+    $rawIncoming = socket_read( $clientTmp, 10000 );
+
     
     //
-    // Users sorting / managing
+    // Clients sorting / managing
     //
     OClients::handleClients();
-    
-    // If the user is still connected ...
-    
-    //
-    // Finding the action the user want to execute and launching it
-    //
-    $incoming = json_decode($incoming);
+
     
     //
-    // Core actions 
+    // Finding the action the client want to execute and launching it
     //
-    if( isset($incoming->core) && strlen($incoming->core) > 0 ) {
+    $incoming = json_decode($rawIncoming);
+
     
-      switch( $incoming->core ) {
-      
-        // User connexion (to do) 
-        
-        // User logout (to do) 
-        
-        // Ping (to do)
-      
-      }
+    //
+    // Connect 
+    //
+    if( isset($incoming->core) && 'connect-asker' == $incoming->core ) {
     
+      // Sending the answer back to the client 
+      socket_write( $clientTmp, OClient::connect() );
+
     }
+    
+    
     //
-    // Modules actions
+    // Other actions 
     //
-    elseif( isset($incoming->ask) && strlen($incoming->ask) > 0 ) {
+    elseif( isset($incoming->hanlder) && strlen($incoming->handler) > 0 ) {
+    
+      $request = null;
+      $answer = null;
     
       //
-      // TO DO
+      // Instanciating datas request  
+      //
+      $request = new OData( $rawIncoming );
+      
+      //
+      // TO DO : data transert and modules handling 
       //
     
+      //
+      // Returning back the infos 
+      //
+      socket_write( $clientTmp, OData::encode($answer) ); 
+      
     }
+    
+    
+    //
+    // Client socket shutdown 
+    //
+    socket_close( $clientTmp );
+  
   }
   
 }
