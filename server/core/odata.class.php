@@ -27,6 +27,7 @@ class OData {
   public $to; // Receiver id 
   public $data; // stdObject containing datas  
   public $handler; // Used to call "modules" actions
+  public $ping; // Last ping (timestamp)
   
 
   /** 

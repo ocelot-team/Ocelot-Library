@@ -1,0 +1,35 @@
+/* 
+    Document   : main
+    Created on : 2 mars 2011, 08:50:48
+    Author     : Fabien CANU - Matteo Cargnelutti
+    Description:
+        Main CSS Ocelot
+*/
+
+/* __________________________________________________________________________ */
+/*  BASE */
+
+
+
+/* End BASE */
+/* ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ */
+
+/* __________________________________________________________________________ */
+/* CONTENT                                                                     */
+
+/* Login zone */
+#connect {
+    display: block;
+    width: 100px;
+    height: 30px;
+    background: silver;
+    border: 1px solid gray;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -15px;
+}
+
+/* End CONTENT                                                                 */
+/* ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ */
