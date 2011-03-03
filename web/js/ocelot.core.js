@@ -9,11 +9,15 @@
         
 		var opts = $.extend({}, $.fn.ocelot.defaults, options);
         
-		return this.each(function() {
+		return init = function() {
+            alert('test');
+		}
+
+        test = function() {
 			var ocelot, requestTime, responseTime ;
 			var target = $(this);
 			function ocelot() {
-				$.ajax({url: 'empty' + Math.random() + '.html',
+				$.ajax({url: '',
 					type: 'GET',
 					dataType: 'html',
 					timeout: 30000,
@@ -28,8 +32,8 @@
 				});
 			}
 			ocelot();
-			opts.interval != 0 && setInterval(ocelot,opts.interval * 1000);
-		});
+			opts.interval != 0 && setInterval(ocelot,opts.interval * 1000);            
+        }
         
 	};
     
