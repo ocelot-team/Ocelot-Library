@@ -31,6 +31,7 @@ class OClient {
   private $id; // is not linear =)
   private $firstPing;
   private $lastPing;
+  private $ip;
   
   //
   // Clients collection
@@ -47,9 +48,11 @@ class OClient {
   /**
    * Constructor - creates a client and add's it to the global collection (connect)
    *
+   * @param string $ip : The ip of the client, transmitted by ep.php
+   *
    * @return OClient
   */
-  public function __construct() {
+  public function __construct( $ip ) {
   
     //
     // Creating a client id 
@@ -60,12 +63,18 @@ class OClient {
       $idTmp = uniqid();
     }
     
+    $this->id = $idTmp;
+    
     //
     // Pings
     //
-    $this->id = $idTmp;
     $this->firstPing = time();
     $this->lastPing = time();
+    
+    //
+    // Ip 
+    //
+    $this->ip = $ip;
     
     //
     // Associating the user to the global collection 
@@ -149,7 +158,7 @@ class OClient {
     //
     // Creating the client 
     //
-    $newClient = new OClient();
+    $newClient = new OClient( $queryData->ip );
     $newClientId = array_pop(array_keys(OClients::CLIENTS));
     
     //

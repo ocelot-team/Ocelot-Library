@@ -47,6 +47,18 @@ class OData {
     }
     
     //
+    // Does the ip correspond to the one given at the connection ?
+    //
+    if( OClients::CLIENTS[$request->from]->ip != $request->ip ) {
+      
+      throw new OException(
+        'Client id and ip does not match !',
+        'CLIENT_IP_CONFLICT'
+      );
+    
+    }
+    
+    //
     // Update the clients ping ?
     //
     

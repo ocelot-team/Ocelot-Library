@@ -110,7 +110,7 @@ try {
     if( isset($incoming->core) && 'connect-asker' == $incoming->core ) {
     
       // Sending the answer back to the client 
-      socket_write( $clientTmp, OClient::connect() );
+      socket_write( $clientTmp, OClient::connect( $incoming->ip ) );
 
     }
     
