@@ -36,7 +36,7 @@ class OClient {
   //
   // Clients collection
   //
-  private static $CLIENTS = array(); // Array of Oclient
+  public static $CLIENTS = array(); // Array of Oclient
  
  
   ///////////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ class OClient {
     //
     $idTmp = uniqid();
     
-    while( isset(self::CLIENTS[$idTmp]) ) {
+    while( isset(self::$CLIENTS[$idTmp]) ) {
       $idTmp = uniqid();
     }
     
@@ -79,35 +79,21 @@ class OClient {
     //
     // Associating the user to the global collection 
     //
-    self::CLIENTS[$idTmp] = $this;
+    self::$CLIENTS[$idTmp] = $this;
     
     //
     // Sorting clients 
     //
-    ksort(self::CLIENTS);
+    ksort(self::$CLIENTS);
     
   }
-  
-  
-  /**
-   * User erasing process
-   *
-  */
-  public function disconnect() {
-    //
-    // TO DO
-    //
-  }
-  
   
   /**
    * Ping process 
    *
   */
   public function ping() {
-    //
-    // TO DO 
-    // Update ping, set to 0 if we want to disconnect the user
+    $this->lastPing = time(); 
   }
   
   
@@ -176,12 +162,22 @@ class OClient {
   
   /**
    * Clients handler ( sort connected/timed out users, etc ...)
-   *
+   * 
   */
   public static function handleClients() {
-    //
-    // TO DO 
-    //
+    
+    // Trying to find clients that timed out 
+    foreach( self::$CLIENTS as $clientId => $clientDatas ) {
+    
+      if( $clientDatas->lastPing + OCELOT_SERVER_CLIENT_TIMEOUT < time() ) {
+      
+        // Unsetting the client 
+        unset( self::$CLIENTS[$clientId] );
+      
+      }
+    
+    }
+    
   }
   
 }
