@@ -126,7 +126,12 @@ try {
       //
       // Instanciating datas request  
       //
-      $request = new OData( $rawIncoming );
+      try {
+        $request = new OData( $rawIncoming );
+      }
+      catch( Exception $e ) {
+        // To do -> errors sorting and redirecting
+      }
       
       //
       // TO DO : data transert and modules handling 
@@ -135,8 +140,12 @@ try {
       //
       // Returning back the infos 
       //
-      socket_write( $clientTmp, OData::encode($answer) ); 
-      
+      try {
+        socket_write( $clientTmp, OData::encode($answer) ); 
+      }
+      catch( Exception $e ) {
+        // To do -> errors sorting and redirecting
+      }
     }
     
     
@@ -154,6 +163,6 @@ try {
 //
 ///////////////////////////////////////////////////////////////////////////////
 catch( Exception $e ) {
-  $e->getMessage();
+  echo $e->getMessage();
   exit();
 }

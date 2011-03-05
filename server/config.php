@@ -22,6 +22,7 @@ if( 5 < intval(substr(phpversion(), 0, 1)) ) {
   exit();
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Script protection constant 
@@ -88,6 +89,8 @@ if( !function_exists('json_encode') ) {
 // Server infos  
 //
 ///////////////////////////////////////////////////////////////////////////////
+define('OCELOT_SERVER_ID', 'ocelotTestServer');
 define('OCELOT_SERVER_PORT', 2674); 
 define('OCELOT_SERVER_NAME', 'Ocelot Test Server');
 define('OCELOT_SERVER_PASSWORD', sha1('1234abcd'));
+define('OCELOT_SERVER_CLIENT_TIMEOUT', 60); // In seconds

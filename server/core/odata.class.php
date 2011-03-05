@@ -47,9 +47,20 @@ class OData {
     }
     
     //
+    // Is the client connected ? 
+    //
+    if( !isset(OClients::$CLIENTS[$request->from]) ) {
+    
+      throw new OException(
+        'Client timed out',
+        'CLIENT_TIMED_OUT');
+    
+    }
+    
+    //
     // Does the ip correspond to the one given at the connection ?
     //
-    if( OClients::CLIENTS[$request->from]->ip != $request->ip ) {
+    if( OClients::$CLIENTS[$request->from]->ip != $request->ip ) {
       
       throw new OException(
         'Client id and ip does not match !',
@@ -59,22 +70,12 @@ class OData {
     }
     
     //
-    // Update the clients ping ?
-    //
-    
-    // 'From' ping 
+    // Update the "from" ping ?
+    //     
     if( isset($request->from) && strlen($request->from) > 0 ) {
-      //
-      // TO DO
-      //
+      OClients::$CLIENTS[$request->from]->ping();
     }
     
-    // 'To' ping 
-    if( isset($request->to) && strlen($request->to) > 0 ) {
-      //
-      // TO DO 
-      //
-    }
   
   }
 
