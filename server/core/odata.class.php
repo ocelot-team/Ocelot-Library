@@ -83,14 +83,20 @@ class OData {
   /**
    * Coding outgoing data 
    *
-   * @param string $rawInput (json) 
    * @return json encoded
   */
-  public function __toString( $rawInput ) {
+  public function __toString() {
     
-    //
-    // TO DO
-    //
+    $datas = array(
+      'core' => $this->core,
+      'from' => $this->from,
+      'to' => $this->to,
+      'data' => $this->data,
+      'handler' => $this->handler,
+      'ping' => $this->ping
+    );
+    
+    return json_encode($datas);
     
   }
   

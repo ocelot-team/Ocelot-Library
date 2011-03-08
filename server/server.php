@@ -118,7 +118,7 @@ try {
     //
     // Other actions 
     //
-    elseif( isset($incoming->hanlder) && strlen($incoming->handler) > 0 ) {
+    elseif( isset($incoming->handler) && strlen($incoming->handler) > 0 ) {
     
       $request = null;
       $answer = null;
@@ -130,7 +130,12 @@ try {
         $request = new OData( $rawIncoming );
       }
       catch( Exception $e ) {
-        // To do -> errors sorting and redirecting
+        
+        // Errors short codes are sent back to the asker
+        if( preg_match('#^[A-Z_]+$#', $e->getShortCode()) ) {
+          socket_write( $clientTmp, $e->getShortCode() );
+        }
+        
       }
       
       //
@@ -144,8 +149,14 @@ try {
         socket_write( $clientTmp, OData::encode($answer) ); 
       }
       catch( Exception $e ) {
-        // To do -> errors sorting and redirecting
+        
+        // Errors short code are sent back to the asker
+        if( preg_match('#^[A-Z_]+$#', $e->getShortCode()) ) {
+          socket_write( $clientTmp, $e->getShortCode() );
+        }
+        
       }
+      
     }
     
     
